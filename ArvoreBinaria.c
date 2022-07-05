@@ -1,4 +1,4 @@
-//Aluno: Jo„o Paulo
+//Aluno: Jo√£o Paulo
 #include <stdio.h>
 #include <stdlib.h>
 #include "prototipos.h"
@@ -25,6 +25,7 @@ int main(){
     	printf("6-imprimir pre-ordem\n");
     	printf("7-imprimir pos-ordem\n");
     	printf("8-imprimir em-ordem\n");
+	printf("9-total de nos impares\n");
     	scanf("%d", &op);
     	
     	switch(op){
@@ -70,6 +71,15 @@ int main(){
 			case 8:
 				emOrdem_ArvBin(raiz);
 			break;
+		        case 9:
+				printf("Digite um numero impar ja inserido:\n");
+        			scanf("%d", &valor);
+        
+				imp = total_no_impar(raiz,valor);
+        			if(imp){
+          				printf("total de nos impares: %d\n", imp);
+        			}
+			break;
 		}
     	
 	}while(op);
@@ -96,7 +106,7 @@ void libera_NO(struct NO* no){
 void libera_ArvBin(ArvBin* raiz){
     if(raiz == NULL)
         return;
-    libera_NO(*raiz);//libera cada nÛ
+    libera_NO(*raiz);//libera cada n√≥
     free(raiz);//libera a raiz
 }
 
@@ -120,7 +130,7 @@ int insere_ArvBin(ArvBin* raiz, int valor){
             ant = atual;
             if(valor == atual->info){
                 free(novo);
-                return 0;//elemento j· existe
+                return 0;//elemento j√° existe
             }
 
             if(valor > atual->info)
@@ -149,8 +159,8 @@ struct NO* remove_atual(struct NO* atual) {
         no1 = no2;
         no2 = no2->dir;
     }
-    // no2 È o nÛ anterior a r na ordem e-r-d
-    // no1 È o pai de no2
+    // no2 √© o n√≥ anterior a r na ordem e-r-d
+    // no1 √© o pai de no2
     if(no1 != atual){
         no1->dir = no2->esq;
         no2->esq = atual->esq;
@@ -215,6 +225,30 @@ int altura_ArvBin(ArvBin *raiz){
         return (alt_esq + 1);
     else
         return(alt_dir + 1);
+}
+
+//fun√ß√£o nova criada por mim
+int total_no_impar(ArvBin *raiz, int valor){
+	if(raiz == NULL){
+		return 0;
+	}
+	if(*raiz == NULL){
+		return 0;
+	}
+	int cont = 0;
+	struct NO* atual = *raiz;
+	while(atual != NULL){
+		if(valor%2==1){
+			cont++;
+		}
+    if(valor > atual->info){
+		atual = atual->dir;
+    }
+    else{
+		atual = atual->esq;
+    }
+}
+  return cont;
 }
 
 int consulta_ArvBin(ArvBin *raiz, int valor){
